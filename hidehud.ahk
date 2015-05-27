@@ -4,23 +4,22 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 #UseHook
 
-
 ; HUD Hiding script
 
 ; Default state of HUD:
 global HudActive=true
 SetIcon()
-;#IfWinExist ahk_exe witcher3.exe
+#IfWinExist ahk_exe witcher3.exe
 Hotkey, F4, ToggleHUD
 return
 
 SetIcon() 
 {
     IfExist, tw3hidehud.exe
-        Menu, TRAY, Icon, tw3hidehud.exe, % HudActive ? 2 : 1
+        Menu, TRAY, Icon, tw3hidehud.exe, % HudActive ? 1 : 2
     else 
     {
-        ico := HudActive ? "hud-active.ico" : "hud-inactive.ico"
+        ico := HudActive ? "hud-inactive.ico" : "hud-active.ico"
         IfExist, %ico%
             Menu, TRAY, Icon, %ico%
     }
@@ -69,10 +68,4 @@ ToggleHUD:
     ; resume the game
     Send {Esc 4}
     return
-}
-
-Reload:
-{
-    MsgBox Reloading Script
-    Reload
 }
