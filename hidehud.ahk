@@ -4,12 +4,14 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 #UseHook
 
+
 ; HUD Hiding script
 
 ; Default state of HUD:
 HudActive=true
 
 ; Hotkey, F3, Reload ; Bind Reload to a hotkey for debugging
+#IfWinExist ahk_exe witcher3.exe
 Hotkey, F4, ToggleHUD
 return
 
@@ -18,10 +20,13 @@ ToggleHUD:
     HudActive:=!HudActive
 
     SetKeyDelay, 200
-    IfWinExist, The Witcher 3
+    IfWinExist, ahk_exe witcher3.exe
     {
         IfWinActive
+        {
             Send {Esc}
+            Sleep 500 ; give the pause menu time to load
+        }
         else
             WinActivate
     }
@@ -31,15 +36,15 @@ ToggleHUD:
     ; enter the hud menu
     Send {Down 3}{Enter}{Down 5}{Enter 2}
 
-    SetKeyDelay, 10
+    SetKeyDelay, 0
     if HudActive
     {
         Loop, 3
             Send {Down}{Right}
-        Send {Down} ; witcher senses on minimap
+        Send {Down} ; don't enable witcher senses on minimap
         Loop, 8
             Send {Down}{Right}
-        Send {Down} ; control hints
+        Send {Down} ; don't enable control hints
         Loop, 9
             Send {Down}{Right}
     }
